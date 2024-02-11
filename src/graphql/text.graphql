@@ -1,0 +1,28 @@
+type Text {
+    id: UUID!
+    key: UUID
+    active: Boolean
+    value: String
+    parentable_type: String
+    parentable_id: String
+    parentable: Parentable @morphTo
+}
+
+extend type Query {
+    text: [Text] @all
+}
+
+extend type Mutation {
+    createText(input: CreateTextInput @spread): Text @create
+}
+
+input CreateTextInput {
+    id: UUID!
+    key: UUID!
+    value: String!
+    slug: String
+}
+
+input CreateTextMorphMany {
+    create: [CreateTextInput!]
+}

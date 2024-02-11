@@ -1,0 +1,50 @@
+type Rubric {
+    id: UUID!
+    key: UUID!
+    is_active: Boolean
+    slug: String
+    value: String!
+    created_at: String
+    updated_at: String
+    category: [Category] @morphMany
+    text: [Text] @morphMany
+    seoTitle: SeoTitle @morphOne
+    seoDescription: SeoDescription @morphOne
+    parentable: Parentable @morphTo
+}
+
+extend type Query {
+    rubric(key: UUID @eq, orderBy: _ @orderBy(columns: ["value"])): [Rubric]
+        @all
+    rubric_one(slug: String! @eq, key: UUID! @eq): Rubric @find
+}
+
+extend type Mutation {
+    createRubric(input: CreateRubricInput @spread): Rubric @create
+    updateRubric(input: UpdateRubricInput @spread): Rubric @update
+    deleteRubric(id: UUID! @whereKey): Rubric @delete
+}
+
+input CreateRubricInput {
+    id: UUID!
+    key: UUID!
+    is_active: Boolean
+    value: String!
+    slug: String
+    parentable_type: String
+    parentable_id: UUID
+    seoTitle: CreateSeoTitleMorphOne
+    seoDescription: CreateSeoDescriptionMorphOne
+}
+
+input UpdateRubricInput {
+    id: UUID!
+    key: UUID!
+    is_active: Boolean
+    value: String!
+    slug: String
+    parentable_type: String
+    parentable_id: UUID
+    seoTitle: UpdateSeoTitleMorphOne
+    seoDescription: UpdateSeoDescriptionMorphOne
+}

@@ -1,0 +1,39 @@
+type SeoDescription {
+    id: UUID
+    key: UUID
+    is_active: Boolean
+    value: String
+    parentable: Parentable @morphTo
+}
+
+extend type Query {
+    seoDescription: [SeoDescription] @all
+}
+
+input CreateSeoDescriptionInput {
+    key: UUID!
+    value: String!
+}
+
+input UpdateSeoDescriptionInput {
+    id: UUID
+    key: UUID
+    value: String
+}
+
+input CreateSeoDescriptionMorphOne {
+    create: CreateSeoDescriptionInput!
+}
+
+input UpdateSeoDescriptionMorphOne {
+    update: UpdateSeoDescriptionInput!
+}
+
+extend type Mutation {
+    createSeoDescription(
+        input: CreateSeoDescriptionInput @spread
+    ): SeoDescription @create
+    updateSeoDescription(
+        input: UpdateSeoDescriptionInput @spread
+    ): SeoDescription @update
+}

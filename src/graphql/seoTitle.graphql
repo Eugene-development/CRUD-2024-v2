@@ -1,0 +1,38 @@
+type SeoTitle {
+    id: UUID
+    key: UUID
+    is_active: Boolean
+    value: String
+    parentable: Parentable @morphTo
+}
+
+extend type Query {
+    seoTitle: [SeoTitle] @all
+}
+
+input CreateSeoTitleInput {
+    key: UUID!
+    value: String!
+}
+
+input UpdateSeoTitleInput {
+    id: UUID
+    key: UUID
+    value: String
+}
+
+input CreateSeoTitleMorphOne {
+    create: CreateSeoTitleInput!
+}
+
+input UpdateSeoTitleMorphOne {
+    update: UpdateSeoTitleInput!
+}
+input UpdateSeoTitleMorphOne {
+    update: UpdateSeoTitleInput!
+}
+
+extend type Mutation {
+    createSeoTitle(input: CreateSeoTitleInput @spread): SeoTitle @create
+    updateSeoTitle(input: UpdateSeoTitleInput @spread): SeoTitle @update
+}

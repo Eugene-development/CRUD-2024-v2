@@ -1,0 +1,58 @@
+type Product {
+    id: UUID!
+    key: UUID!
+    is_active: Boolean
+    slug: String
+    value: String!
+    created_at: String
+    updated_at: String
+    price: Price @morphOne
+    unit: Unit @morphOne
+    text: [Text] @morphMany
+    tag: [Tag] @morphTo
+    image: Image @morphOne
+    seoTitle: SeoTitle @morphOne
+    seoDescription: SeoDescription @morphOne
+
+    parentable: Parentable @morphTo
+}
+
+extend type Query {
+    product(orderBy: _ @orderBy(columns: ["created_at"])): [Product] @all
+    product_one(slug: String! @eq, key: UUID! @eq): Product @find
+    productSoftDeletes: [Product] @all @softDeletes
+}
+
+extend type Mutation {
+    createProduct(input: CreateProductInput @spread): Product @create
+    updateProduct(input: UpdateProductInput @spread): Product @update
+    deleteProduct(id: UUID! @whereKey): Product @delete
+}
+
+input CreateProductInput {
+    id: UUID!
+    key: UUID!
+    is_active: Boolean
+    value: String!
+    slug: String
+    parentable_type: String
+    parentable_id: UUID!
+    price: CreatePriceMorphMany
+    unit: CreateUnitMorphMany
+    image: CreateImageMorphMany
+    seoTitle: CreateSeoTitleMorphOne
+    seoDescription: CreateSeoDescriptionMorphOne
+}
+
+input UpdateProductInput {
+    id: UUID!
+    key: UUID!
+    is_active: Boolean
+    value: String!
+    slug: String
+    parentable_type: String
+    parentable_id: UUID
+    price: UpdatePriceMorphMany
+    seoTitle: UpdateSeoTitleMorphOne
+    seoDescription: UpdateSeoDescriptionMorphOne
+}

@@ -1,0 +1,27 @@
+type Image {
+    id: ID
+    key: String
+    active: Boolean
+    hash: String
+    alt: String
+    parentable: Parentable! @morphTo
+}
+
+extend type Query {
+    image: [Image] @all
+}
+
+extend type Mutation {
+    createImage(input: CreateImageInput @spread): Image @create
+}
+
+input CreateImageInput {
+    key: String!
+    hash: String!
+    alt: String!
+}
+
+# ???
+input CreateImageMorphMany {
+    create: CreateImageInput!
+}

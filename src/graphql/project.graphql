@@ -1,0 +1,12 @@
+type Project {
+    id: UUID!
+    key: UUID
+    value: String
+    resource: [Resource!] @morphMany
+    seoQuery: [SeoQuery!] @morphMany
+    text: [Text] @morphMany
+}
+
+extend type Query {
+    project: [Project] @all
+}
